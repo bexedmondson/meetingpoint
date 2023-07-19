@@ -8,6 +8,8 @@ const options = [
   { value: 'vanilla', label: 'Vanilla' },
 ];
 
+const selectedOptions = [];
+
 
 let stations = [];
 london.stations.forEach(station => {
@@ -17,9 +19,8 @@ london.stations.forEach(station => {
 export default function Selector() {
   const [selectedOption, setSelectedOption] = useState(null);
   
-  const handleChange = (selectedOption) => {
-    setSelected(selectedOption);
-    console.log(`Option selected:`, selectedOption);
+  const handleChange = (selectedOptions) => {
+    selectedOptions = {selectedOptions}
   };
 
   return (
