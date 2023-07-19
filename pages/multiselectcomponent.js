@@ -1,28 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useId } from 'react';
 import Select from 'react-select';
-import london from '../data/london.json';
 
-const selectedOptions = [];
-
-
-let stations = [];
-london.stations.forEach(station => {
-    stations.push({value: station.id, label: station.name})
-});
-
-export default function Selector() {
+export default function Selector({stations, selectedOptions, set}) {
   const [selectedOption, setSelectedOption] = useState(null);
-  
-  const handleChange = (selectedOptions) => {
-    selectedOptions = {selectedOptions}
-  };
+
+  const handleChange = (selected) => {
+    console.log("handlechange");
+    selectedOptions = selected;
+    set(selectedOptions);
+  }
 
   return (
     <div className="Selector">
       <Select
+        instanceId={useId}
         defaultValue={selectedOption}
-        onChange={setSelectedOption}
-        handleChange={handleChange}
+        onChange={handleChange}
         options={stations}
         isMulti
         autoFocus

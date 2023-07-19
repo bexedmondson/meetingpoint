@@ -1,9 +1,45 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import Link from 'next/link';
 import Selector from './multiselectcomponent';
+import MeetingPoint from './meetingpoint';
+import london from '../data/london.json';
+
+let stations = [];
+london.stations.forEach(station => {
+    stations.push({value: station.id, label: station.name})
+});
 
 export default function Home() {
+  var state = {
+    hasResult: false,
+    result: null,
+    selectedStarts: [],
+    selectedEnds: []
+  };
+
+  const handleStartChange = (selectedOptions) => {
+    console.log("index handle start change");
+    state.selectedStarts = selectedOptions;
+    console.log(state.selectedStarts);
+  };
+
+  const getStarts = () => {
+    return state.selectedStarts;
+  }
+
+  const handleEndChange = (selectedOptions) => {
+    state.selectedEnds = {selectedOptions};
+  };
+
+  const getEnds = () => {
+    return state.selectedEnds;
+  }
+
+  const setResult = (result) => {
+    state.result = result;
+    state.hasResult = true;
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -13,14 +49,29 @@ export default function Home() {
 
       <main>
         <h1 className="title">
-          Read <Link href="meetingpoint">this page!</Link>
+          Find some things!
         </h1>
 
         <div className={styles.grid}>
 
-          <Selector ></Selector>
+          <div className={styles.container}>
+            <h3>Select start stations</h3>
+            <Selector stations={stations} selectedOptions={state.selectedStarts} set={handleStartChange}></Selector>
+          </div>
+
+          <div className={styles.container}>
+            <h3>Select possible end stations</h3>
+            <Selector stations={stations} selectedOptions={state.selectedEnds} set={handleEndChange}></Selector>
+          </div>
+
+          <div className={styles.container}>
+            <h3>
+            <MeetingPoint starts={getStarts} ends={getEnds} hasResult={state.hasResult} set={setResult}></MeetingPoint>
+            </h3>
+          </div>
 
         </div>
+
       </main>
 
       <style jsx>{`
