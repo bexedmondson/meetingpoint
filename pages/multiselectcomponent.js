@@ -16,14 +16,21 @@ london.stations.forEach(station => {
 
 export default function Selector() {
   const [selectedOption, setSelectedOption] = useState(null);
+  
+  const handleChange = (selectedOption) => {
+    setSelected(selectedOption);
+    console.log(`Option selected:`, selectedOption);
+  };
 
   return (
     <div className="Selector">
       <Select
         defaultValue={selectedOption}
         onChange={setSelectedOption}
+        handleChange={handleChange}
         options={stations}
         isMulti
+        autoFocus
       />
     </div>
   );
