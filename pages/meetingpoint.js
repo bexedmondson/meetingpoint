@@ -1,15 +1,19 @@
+import React, { useState } from 'react';
 
-function CalculateMeetingPoint(starts, ends, hasResult)
+function CalculateMeetingPoint(starts, ends, setHasResult, setResult)
 {
   console.log(starts);
-  hasResult = true;
+  setResult(null);
+  setHasResult(true);
 }
 
-export default function MeetingPoint({starts, ends, hasResult}) {
+export default function MeetingPoint({starts, ends, setResult}) {
+  const [hasResult, setHasResult] = useState(false);
+
   return (
     <div> {
       hasResult === false ? (
-        <button onClick={(e) => CalculateMeetingPoint(starts, ends, hasResult, e)}>Find</button>
+        <button onClick={(e) => CalculateMeetingPoint(starts, ends, setHasResult, setResult, e)}>Find</button>
       ) : (
         <h3>Best station:</h3>
       )

@@ -36,6 +36,7 @@ export default function Home() {
   }
 
   const setResult = (result) => {
+    console.log("setresult");
     state.result = result;
     state.hasResult = true;
   }
@@ -66,7 +67,7 @@ export default function Home() {
 
           <div className={styles.container}>
             <h3>
-            <MeetingPoint starts={getStarts} ends={getEnds} hasResult={state.hasResult} set={setResult}></MeetingPoint>
+            <MeetingPoint starts={getStarts} ends={getEnds} setResult={setResult}></MeetingPoint>
             </h3>
           </div>
 
