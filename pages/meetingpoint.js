@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import find_path from 'dijkstrajs';
 
 function CalculateMeetingPoint(starts, ends, setHasResult, setResult)
 {
-  console.log(starts);
   setResult(null);
   setHasResult(true);
 }

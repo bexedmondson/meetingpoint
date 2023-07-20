@@ -5,7 +5,6 @@ export default function Selector({stations, selectedOptions, set}) {
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleChange = (selected) => {
-    console.log("handlechange");
     selectedOptions = selected;
     set(selectedOptions);
   }

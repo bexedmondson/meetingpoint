@@ -18,9 +18,7 @@ export default function Home() {
   };
 
   const handleStartChange = (selectedOptions) => {
-    console.log("index handle start change");
     state.selectedStarts = selectedOptions;
-    console.log(state.selectedStarts);
   };
 
   const getStarts = () => {
@@ -36,7 +34,6 @@ export default function Home() {
   }
 
   const setResult = (result) => {
-    console.log("setresult");
     state.result = result;
     state.hasResult = true;
   }
