@@ -1,5 +1,9 @@
 // next.config.js
 
+/**
+ * @type {import('next').NextConfig}
+ */
+
 const isGithubActions = process.env.GITHUB_ACTIONS || false
 
 let assetPrefix = ''
@@ -16,4 +20,5 @@ if (isGithubActions) {
 module.exports = {
   assetPrefix: assetPrefix,
   basePath: basePath,
+  output: 'export'
 }
