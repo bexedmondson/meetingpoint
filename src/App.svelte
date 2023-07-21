@@ -1,5 +1,9 @@
 <script>
 	import MultiSelect from './MultiSelect.svelte';
+	import MeetingPoint from './MeetingPoint.svelte';
+
+	let starts=[]
+	let ends=[]
 
 	export let name;
 </script>
@@ -11,7 +15,18 @@
 
 	<div class="grid">
 		<div class="container">
-			<MultiSelect></MultiSelect>
+			<h2>Start stations:</h2>
+
+			<MultiSelect bind:selected={starts}></MultiSelect>
+		</div>
+		<div class="container">
+			<h2>End stations:</h2>
+
+			<MultiSelect bind:selected={ends}></MultiSelect>
+		</div>
+
+		<div class="container">
+			<MeetingPoint starts={starts} ends={ends}></MeetingPoint>
 		</div>
 	</div>
 </body>
@@ -57,7 +72,7 @@
 	.container {
 		min-height: 15vh;
 		min-width: 100vh;
-		padding: 0 0.5rem;
+		padding: 0.5rem;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -86,10 +101,8 @@
 
 	.grid {
 		justify-self: center;
-		display: flex;
 		align-items: center;
 		justify-content: center;
-		flex-wrap: wrap;
 		margin-top: 3rem;
 	}
   

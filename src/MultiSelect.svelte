@@ -2,9 +2,9 @@
     import MultiSelect from 'svelte-multiselect'
     import london from '../data/london.json'
 
-    const stations = london.stations
+    const stations = london.stations.map(a => a.name)
 
-    let selected = []
+    export let selected = []
 </script>
 
 <MultiSelect bind:selected options={stations} />
