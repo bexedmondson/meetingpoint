@@ -7,8 +7,6 @@
     function onclick() {
         meetingPointInfo = findMeetingPoint(starts, ends)
         hasResult = true;
-
-        (console.log(meetingPointInfo), '')
     };
     
     export let starts = []
@@ -22,7 +20,7 @@
     {#if hasResult}
         <h2>{meetingPointInfo.end}</h2>
         {#each meetingPointInfo.path as pathPoint}
-            <h3>{getStationFromId(pathPoint)}</h3>
+            <h3>{getStationFromId(pathPoint)}, {pathPoint}</h3>
         {/each}
     {/if}
 {/await}

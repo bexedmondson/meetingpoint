@@ -54,21 +54,14 @@ function findAveragePathLength(starts, end) {
         let startId = getStationId(start);
         let endId = getStationId(end);
 
-        (console.log(startId + ' ' + endId), '')
-
         let thisPath = find_path(map, startId, endId);
 
         endPathInfo["path"] = thisPath;
 
-        (console.log(thisPath), '')
-        totalPath += thisPath.length;
+        totalPath += thisPath.cost;
     });
 
-    (console.log(totalPath), '')
-
     let average = totalPath / starts.length;
-
-    (console.log(average), '')
 
     endPathInfo.average = average;
     
@@ -85,8 +78,6 @@ function findMeetingPoint(starts, ends) {
             minPathInfo = endPathInfo;
         }
     });
-
-    (console.log(minPathInfo), '')
 
     return minPathInfo;
 }
