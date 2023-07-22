@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "@rollup/plugin-json": "^6.0.0",
-    "dijkstrajs": "^1.0.3",
     "sirv-cli": "^2.0.0",
     "svelte-multiselect": "^10.1.0"
   }
