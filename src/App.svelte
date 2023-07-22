@@ -4,14 +4,12 @@
 
 	let starts=[]
 	let ends=[]
-
-	export let name;
 </script>
 
 <main>
 <body>
-	<h1 class="title">Hello {name}!</h1>
-	<h2 class="description">Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</h2>
+	<h1 class="title">Meeting Point</h1>
+	<h2 class="description">Add you and your friends' starting points and a list of potential meetup locations, and hit the Find button to see the best point to meet.</h2>
 
 	<div class="grid">
 		<div class="container">
