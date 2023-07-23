@@ -1,12 +1,10 @@
 <script>
     import { buildMap, findMeetingPoint, getStationFromId } from './findMeetingPoint.js'
 
-    var hasResult = false
     var meetingPointInfo = null
 
     function onclick() {
         meetingPointInfo = findMeetingPoint(starts, ends)
-        hasResult = true;
     };
     
     export let starts = []
@@ -17,10 +15,10 @@
     <p>Loading...</p>
 {:then map}
     <button on:click={onclick}><h3>  Find  </h3></button>
-    {#if hasResult}
+    {#if meetingPointInfo !== null}
         <h2>{meetingPointInfo.end}</h2>
         {#each meetingPointInfo.path as pathPoint}
-            <h3>{getStationFromId(pathPoint)}, {pathPoint}</h3>
+            <h3>{getStationFromId(pathPoint)}</h3>
         {/each}
     {/if}
 {/await}
