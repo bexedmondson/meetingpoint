@@ -33,8 +33,8 @@ async function buildMap() {
             connections2 = map[c.station2];
         }
 
-        connections1[c.station2] = c.time; 
-        connections2[c.station1] = c.time;
+        connections1[c.station2] = Number(c.time); 
+        connections2[c.station1] = Number(c.time);
 
         map[c.station1] = connections1;
         map[c.station2] = connections2;
@@ -52,7 +52,9 @@ function findAveragePathLength(starts, end) {
 
     starts.forEach(start => {
         let startId = getStationId(start);
+        (console.log(typeof(startId)), '')
         let endId = getStationId(end);
+        (console.log(typeof(endId)), '')
 
         let thisPath = find_path(map, startId, endId);
 
