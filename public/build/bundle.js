@@ -11780,6 +11780,7 @@ var app = (function () {
 
     var map = [];
 
+
     function PathInfo(average, end, path) {
         this.average = average;
         this.end = end;
@@ -11820,7 +11821,6 @@ var app = (function () {
         return map;
     }
 
-
     function findAveragePathLength(starts, end) {
         var totalPath = 0;
 
@@ -11829,13 +11829,9 @@ var app = (function () {
 
         starts.forEach(start => {
             let startId = getStationId(start);
-            (console.log(typeof(startId)));
             let endId = getStationId(end);
-            (console.log(typeof(endId)));
 
             let thisPath = dijkstraExports.find_path(map, startId, endId);
-
-            endPathInfo["path"] = thisPath;
 
             totalPath += thisPath.cost;
         });
