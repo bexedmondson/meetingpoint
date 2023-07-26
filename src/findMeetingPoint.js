@@ -1,7 +1,8 @@
-import { find_path } from './dijkstrajs-2/dijkstra.js';
+import { find_path } from 'dijkstra';
 import london from '../data/london.json';
 
 var map = [];
+
 
 function PathInfo(average, end, path) {
     this.average = average;
@@ -43,7 +44,6 @@ async function buildMap() {
     return map;
 }
 
-
 function findAveragePathLength(starts, end) {
     var totalPath = 0;
 
@@ -52,13 +52,9 @@ function findAveragePathLength(starts, end) {
 
     starts.forEach(start => {
         let startId = getStationId(start);
-        (console.log(typeof(startId)), '')
         let endId = getStationId(end);
-        (console.log(typeof(endId)), '')
 
         let thisPath = find_path(map, startId, endId);
-
-        endPathInfo["path"] = thisPath;
 
         totalPath += thisPath.cost;
     });
