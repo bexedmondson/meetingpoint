@@ -1,4 +1,4 @@
-import { find_path } from 'dijkstra';
+import { find_path } from './dijkstrajs-2/dijkstra.js';
 import london from '../data/london.json';
 
 var map = [];
