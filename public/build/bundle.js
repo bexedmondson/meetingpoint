@@ -1999,7 +1999,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    function get_each_context$1(ctx, list, i) {
+    function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[118] = list[i];
     	child_ctx[125] = i;
@@ -3263,14 +3263,14 @@ var app = (function () {
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$1(get_each_context$1(ctx, each_value, i));
+    		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
     	}
 
     	const out = i => transition_out(each_blocks[i], 1, 1, () => {
     		each_blocks[i] = null;
     	});
 
-    	let if_block = /*searchText*/ ctx[3] && create_if_block_1(get_if_ctx_1(ctx));
+    	let if_block = /*searchText*/ ctx[3] && create_if_block_1$1(get_if_ctx_1(ctx));
 
     	const block = {
     		c: function create() {
@@ -3311,13 +3311,13 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$1(ctx, each_value, i);
+    					const child_ctx = get_each_context(ctx, each_value, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     						transition_in(each_blocks[i], 1);
     					} else {
-    						each_blocks[i] = create_each_block$1(child_ctx);
+    						each_blocks[i] = create_each_block(child_ctx);
     						each_blocks[i].c();
     						transition_in(each_blocks[i], 1);
     						each_blocks[i].m(ul, t);
@@ -3341,7 +3341,7 @@ var app = (function () {
     						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block = create_if_block_1(get_if_ctx_1(ctx));
+    					if_block = create_if_block_1$1(get_if_ctx_1(ctx));
     					if_block.c();
     					transition_in(if_block, 1);
     					if_block.m(ul, null);
@@ -3416,7 +3416,7 @@ var app = (function () {
     }
 
     // (608:14) {:else}
-    function create_else_block(ctx) {
+    function create_else_block$1(ctx) {
     	let t_value = get_label(/*option*/ ctx[118]) + "";
     	let t;
 
@@ -3437,7 +3437,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_else_block.name,
+    		id: create_else_block$1.name,
     		type: "else",
     		source: "(608:14) {:else}",
     		ctx
@@ -3488,7 +3488,7 @@ var app = (function () {
 
     	function select_block_type_2(ctx, dirty) {
     		if (/*parseLabelsAsHtml*/ ctx[32]) return create_if_block_3;
-    		return create_else_block;
+    		return create_else_block$1;
     	}
 
     	let current_block_type = select_block_type_2(ctx);
@@ -3597,7 +3597,7 @@ var app = (function () {
     }
 
     // (571:6) {#each matchingOptions.slice(0, Math.max(0, maxOptions ?? 0) || Infinity) as option, idx}
-    function create_each_block$1(ctx) {
+    function create_each_block(ctx) {
     	let li;
     	let li_title_value;
     	let li_class_value;
@@ -3733,7 +3733,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_each_block$1.name,
+    		id: create_each_block.name,
     		type: "each",
     		source: "(571:6) {#each matchingOptions.slice(0, Math.max(0, maxOptions ?? 0) || Infinity) as option, idx}",
     		ctx
@@ -3743,7 +3743,7 @@ var app = (function () {
     }
 
     // (615:6) {#if searchText}
-    function create_if_block_1(ctx) {
+    function create_if_block_1$1(ctx) {
     	let if_block_anchor;
     	let current;
     	let if_block = /*msgType*/ ctx[116] && create_if_block_2(get_if_ctx(ctx));
@@ -3799,7 +3799,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_1.name,
+    		id: create_if_block_1$1.name,
     		type: "if",
     		source: "(615:6) {#if searchText}",
     		ctx
@@ -11604,179 +11604,174 @@ var app = (function () {
     	}
     }
 
-    var dijkstra = {exports: {}};
+    /******************************************************************************
+     * Created 2008-08-19.
+     *
+     * Dijkstra path-finding functions. Adapted from the Dijkstar Python project.
+     *
+     * Copyright (C) 2023
+     *   Bex Edmondson
+     *   original: Wyatt Baldwin <self@wyattbaldwin.com>
+     *   All rights reserved
+     *
+     * Licensed under the MIT license.
+     *
+     *   http://www.opensource.org/licenses/mit-license.php
+     *
+     * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+     * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+     * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+     * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+     * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+     * THE SOFTWARE.
+     *****************************************************************************/
 
-    (function (module) {
+    var dijkstra = {
+      single_source_shortest_paths: function(graph, s, d) {
+        // Predecessor map for each node that has been encountered.
+        // node ID => predecessor node ID
+        var predecessors = {};
 
-    	/******************************************************************************
-    	 * Created 2008-08-19.
-    	 *
-    	 * Dijkstra path-finding functions. Adapted from the Dijkstar Python project.
-    	 *
-    	 * Copyright (C) 2008
-    	 *   Wyatt Baldwin <self@wyattbaldwin.com>
-    	 *   All rights reserved
-    	 *
-    	 * Licensed under the MIT license.
-    	 *
-    	 *   http://www.opensource.org/licenses/mit-license.php
-    	 *
-    	 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    	 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    	 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    	 * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    	 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    	 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-    	 * THE SOFTWARE.
-    	 *****************************************************************************/
-    	var dijkstra = {
-    	  single_source_shortest_paths: function(graph, s, d) {
-    	    // Predecessor map for each node that has been encountered.
-    	    // node ID => predecessor node ID
-    	    var predecessors = {};
+        // Costs of shortest paths from s to all nodes encountered.
+        // node ID => cost
+        var costs = {};
+        costs[s] = 0;
 
-    	    // Costs of shortest paths from s to all nodes encountered.
-    	    // node ID => cost
-    	    var costs = {};
-    	    costs[s] = 0;
+        // Costs of shortest paths from s to all nodes encountered; differs from
+        // `costs` in that it provides easy access to the node that currently has
+        // the known shortest path from s.
+        // XXX: Do we actually need both `costs` and `open`?
+        var open = dijkstra.PriorityQueue.make();
+        open.push(s, 0);
 
-    	    // Costs of shortest paths from s to all nodes encountered; differs from
-    	    // `costs` in that it provides easy access to the node that currently has
-    	    // the known shortest path from s.
-    	    // XXX: Do we actually need both `costs` and `open`?
-    	    var open = dijkstra.PriorityQueue.make();
-    	    open.push(s, 0);
+        var closest,
+            u, v,
+            u_cost,
+            adjacent_nodes,
+            edge_cost,
+            v_cost;
+        while (!open.empty()) {
+          // In the nodes remaining in graph that have a known cost from s,
+          // find the node, u, that currently has the shortest path from s.
+          closest = open.pop();
+          u = closest.value;
+          u_cost = closest.cost;
 
-    	    var closest,
-    	        u, v,
-    	        cost_of_s_to_u,
-    	        adjacent_nodes,
-    	        cost_of_e,
-    	        cost_of_s_to_u_plus_cost_of_e,
-    	        cost_of_s_to_v,
-    	        first_visit;
-    	    while (!open.empty()) {
-    	      // In the nodes remaining in graph that have a known cost from s,
-    	      // find the node, u, that currently has the shortest path from s.
-    	      closest = open.pop();
-    	      u = closest.value;
-    	      cost_of_s_to_u = closest.cost;
+          // Get nodes adjacent to u...
+          adjacent_nodes = graph[u] || {};
 
-    	      // Get nodes adjacent to u...
-    	      adjacent_nodes = graph[u] || {};
+          // ...and explore the edges that connect u to those nodes, updating
+          // the cost of the shortest paths to any or all of those nodes as
+          // necessary. v is the node across the current edge from u.
+          for (v in adjacent_nodes) {
+            if (v in adjacent_nodes) {
+              // Get the cost of the edge running from u to v.
+              edge_cost = adjacent_nodes[v];
 
-    	      // ...and explore the edges that connect u to those nodes, updating
-    	      // the cost of the shortest paths to any or all of those nodes as
-    	      // necessary. v is the node across the current edge from u.
-    	      for (v in adjacent_nodes) {
-    	        if (v in adjacent_nodes) {
-    	          // Get the cost of the edge running from u to v.
-    	          cost_of_e = adjacent_nodes[v];
+              if (typeof(edge_cost) !== 'number') {
+                var msg1 = ['Cost of edge from ', u, ' to ', v, ' is not a number! Type:', typeof(edge_cost)].join('');
+                throw new Error(msg1);
+              }
 
-    	          if (typeof(cost_of_e) !== 'number') {
-    	            var msg1 = ['Cost of edge from ', u, ' to ', v, ' is not a number! Type:', typeof(cost_of_e)].join('');
-    	            throw new Error(msg1);
-    	          }
+              // Cost of s to u plus the cost of u to v across e--this is *a*
+              // cost from s to v that may or may not be less than the current
+              // known cost to v.
 
-    	          // Cost of s to u plus the cost of u to v across e--this is *a*
-    	          // cost from s to v that may or may not be less than the current
-    	          // known cost to v.
-    	          cost_of_s_to_u_plus_cost_of_e = cost_of_s_to_u + cost_of_e;
+              // If we haven't visited v yet OR if the current known cost from s to
+              // v is greater than the new cost we just found (cost of s to u plus
+              // cost of u to v across e), update v's cost in the cost list and
+              // update v's predecessor in the predecessor list (it's now u).
+              v_cost = costs[v];
+              if (typeof(costs[v]) === 'undefined' || v_cost > u_cost + edge_cost) {
+                costs[v] = u_cost + edge_cost;
 
-    	          // If we haven't visited v yet OR if the current known cost from s to
-    	          // v is greater than the new cost we just found (cost of s to u plus
-    	          // cost of u to v across e), update v's cost in the cost list and
-    	          // update v's predecessor in the predecessor list (it's now u).
-    	          cost_of_s_to_v = costs[v];
-    	          first_visit = (typeof costs[v] === 'undefined');
-    	          if (first_visit || cost_of_s_to_v > cost_of_s_to_u_plus_cost_of_e) {
-    	            costs[v] = cost_of_s_to_u_plus_cost_of_e;
-    	            open.push(v, cost_of_s_to_u_plus_cost_of_e);
-    	            predecessors[v] = u;
-    	          }
-    	        }
-    	      }
-    	    }
+                if (v !== d) {
+                  open.push(v, costs[v]);
+                }
 
-    	    if (typeof d !== 'undefined' && typeof costs[d] === 'undefined') {
-    	      var msg2 = ['Could not find a path from ', s, ' to ', d, '.'].join('');
-    	      throw new Error(msg2);
-    	    }
+                predecessors[v] = u;
+              }
+            }
+          }
+        }
 
-    	    return predecessors;
-    	  },
+        if (typeof d !== 'undefined' && typeof costs[d] === 'undefined') {
+          var msg2 = ['Could not find a path from ', s, ' to ', d, '.'].join('');
+          throw new Error(msg2);
+        }
 
-    	  extract_shortest_path_from_predecessor_list: function(predecessors, d) {
-    	    var nodes = [];
-    	    var u = d;
-    	    while (u) {
-    	      nodes.push(u);
-    	      u = predecessors[u];
-    	    }
-    	    nodes.reverse();
-    	    return nodes;
-    	  },
+        return {predecessors: predecessors, costs: costs};
+      },
 
-    	  find_path: function(graph, s, d) {
-    	    var predecessors = dijkstra.single_source_shortest_paths(graph, s, d);
-    	    return dijkstra.extract_shortest_path_from_predecessor_list(
-    	      predecessors, d);
-    	  },
+      extract_shortest_path_from_predecessor_list: function(predecessors, d) {
+        var nodes = [];
+        var u = d;
+        while (u) {
+          nodes.push(u);
+          u = predecessors[u];
+        }
+        nodes.reverse();
+        return nodes;
+      },
 
-    	  /**
-    	   * A very naive priority queue implementation.
-    	   */
-    	  PriorityQueue: {
-    	    make: function (opts) {
-    	      var T = dijkstra.PriorityQueue,
-    	          t = {},
-    	          key;
-    	      opts = opts || {};
-    	      for (key in T) {
-    	        if (key in T) {
-    	          t[key] = T[key];
-    	        }
-    	      }
-    	      t.queue = [];
-    	      t.sorter = opts.sorter || T.default_sorter;
-    	      return t;
-    	    },
+      find_path: function(graph, s, d) {
+        var predecessorCosts = dijkstra.single_source_shortest_paths(graph, s, d);
+        let finalPath = dijkstra.extract_shortest_path_from_predecessor_list(
+          predecessorCosts.predecessors, d);
+        return {finalPath: finalPath, cost: predecessorCosts.costs[finalPath.at(-1)]};
+      },
 
-    	    default_sorter: function (a, b) {
-    	      return a.cost - b.cost;
-    	    },
+      /**
+       * A very naive priority queue implementation.
+       */
+      PriorityQueue: {
+        make: function (opts) {
+          var T = dijkstra.PriorityQueue,
+              t = {},
+              key;
+          opts = opts || {};
+          for (key in T) {
+            if (key in T) {
+              t[key] = T[key];
+            }
+          }
+          t.queue = [];
+          t.sorter = opts.sorter || T.default_sorter;
+          return t;
+        },
 
-    	    /**
-    	     * Add a new item to the queue and ensure the highest priority element
-    	     * is at the front of the queue.
-    	     */
-    	    push: function (value, cost) {
-    	      var item = {value: value, cost: cost};
-    	      this.queue.push(item);
-    	      this.queue.sort(this.sorter);
-    	    },
+        default_sorter: function (a, b) {
+          return a.cost - b.cost;
+        },
 
-    	    /**
-    	     * Return the highest priority element in the queue.
-    	     */
-    	    pop: function () {
-    	      return this.queue.shift();
-    	    },
+        /**
+         * Add a new item to the queue and ensure the highest priority element
+         * is at the front of the queue.
+         */
+        push: function (value, cost) {
+          var item = {value: value, cost: cost};
+          this.queue.push(item);
+          this.queue.sort(this.sorter);
+        },
 
-    	    empty: function () {
-    	      return this.queue.length === 0;
-    	    }
-    	  }
-    	};
+        /**
+         * Return the highest priority element in the queue.
+         */
+        pop: function () {
+          return this.queue.shift();
+        },
+
+        empty: function () {
+          return this.queue.length === 0;
+        }
+      }
+    };
 
 
-    	// node.js module exports
-    	{
-    	  module.exports = dijkstra;
-    	} 
-    } (dijkstra));
-
-    var dijkstraExports = dijkstra.exports;
+    // node.js module exports
+    //if (typeof module !== 'undefined') {
+      var dijkstra_1 = dijkstra;
 
     var map = [];
 
@@ -11827,11 +11822,13 @@ var app = (function () {
         var endPathInfo = new PathInfo();
         endPathInfo.end = end;
 
+        console.log("hello");
+
         starts.forEach(start => {
             let startId = getStationId(start);
             let endId = getStationId(end);
 
-            let thisPath = dijkstraExports.find_path(map, startId, endId);
+            let thisPath = dijkstra_1.find_path(map, startId, endId);
 
             totalPath += thisPath.cost;
         });
@@ -11860,12 +11857,6 @@ var app = (function () {
     /* src/MeetingPoint.svelte generated by Svelte v3.59.2 */
 
     const file$1 = "src/MeetingPoint.svelte";
-
-    function get_each_context(ctx, list, i) {
-    	const child_ctx = ctx.slice();
-    	child_ctx[5] = list[i];
-    	return child_ctx;
-    }
 
     // (1:0) <script>     import { buildMap, findMeetingPoint, getStationFromId }
     function create_catch_block(ctx) {
@@ -11951,79 +11942,43 @@ var app = (function () {
     	return block;
     }
 
-    // (18:4) {#if meetingPointInfo !== null}
+    // (19:4) {#if meetingPointInfo !== null}
     function create_if_block(ctx) {
-    	let h2;
-    	let t0_value = /*meetingPointInfo*/ ctx[0].end + "";
-    	let t0;
-    	let t1;
-    	let each_1_anchor;
-    	let each_value = /*meetingPointInfo*/ ctx[0].path;
-    	validate_each_argument(each_value);
-    	let each_blocks = [];
+    	let if_block_anchor;
 
-    	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+    	function select_block_type(ctx, dirty) {
+    		if (/*meetingPointInfo*/ ctx[0].end === undefined) return create_if_block_1;
+    		return create_else_block;
     	}
+
+    	let current_block_type = select_block_type(ctx);
+    	let if_block = current_block_type(ctx);
 
     	const block = {
     		c: function create() {
-    			h2 = element("h2");
-    			t0 = text(t0_value);
-    			t1 = space();
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			each_1_anchor = empty();
-    			add_location(h2, file$1, 18, 8, 446);
+    			if_block.c();
+    			if_block_anchor = empty();
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, h2, anchor);
-    			append_dev(h2, t0);
-    			insert_dev(target, t1, anchor);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				if (each_blocks[i]) {
-    					each_blocks[i].m(target, anchor);
-    				}
-    			}
-
-    			insert_dev(target, each_1_anchor, anchor);
+    			if_block.m(target, anchor);
+    			insert_dev(target, if_block_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*meetingPointInfo*/ 1 && t0_value !== (t0_value = /*meetingPointInfo*/ ctx[0].end + "")) set_data_dev(t0, t0_value);
+    			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
+    				if_block.p(ctx, dirty);
+    			} else {
+    				if_block.d(1);
+    				if_block = current_block_type(ctx);
 
-    			if (dirty & /*getStationFromId, meetingPointInfo*/ 1) {
-    				each_value = /*meetingPointInfo*/ ctx[0].path;
-    				validate_each_argument(each_value);
-    				let i;
-
-    				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context(ctx, each_value, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
-    					}
+    				if (if_block) {
+    					if_block.c();
+    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
     				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value.length;
     			}
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(h2);
-    			if (detaching) detach_dev(t1);
-    			destroy_each(each_blocks, detaching);
-    			if (detaching) detach_dev(each_1_anchor);
+    			if_block.d(detaching);
+    			if (detaching) detach_dev(if_block_anchor);
     		}
     	};
 
@@ -12031,42 +11986,82 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(18:4) {#if meetingPointInfo !== null}",
+    		source: "(19:4) {#if meetingPointInfo !== null}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (20:8) {#each meetingPointInfo.path as pathPoint}
-    function create_each_block(ctx) {
-    	let h3;
-    	let t_value = getStationFromId(/*pathPoint*/ ctx[5]) + "";
-    	let t;
+    // (22:8) {:else}
+    function create_else_block(ctx) {
+    	let t0;
+    	let t1_value = /*meetingPointInfo*/ ctx[0].end + "";
+    	let t1;
+    	let t2;
+    	let t3_value = /*meetingPointInfo*/ ctx[0].average + "";
+    	let t3;
 
     	const block = {
     		c: function create() {
-    			h3 = element("h3");
-    			t = text(t_value);
-    			add_location(h3, file$1, 20, 12, 541);
+    			t0 = text("Best option: ");
+    			t1 = text(t1_value);
+    			t2 = text(", average time: ");
+    			t3 = text(t3_value);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, h3, anchor);
-    			append_dev(h3, t);
+    			insert_dev(target, t0, anchor);
+    			insert_dev(target, t1, anchor);
+    			insert_dev(target, t2, anchor);
+    			insert_dev(target, t3, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*meetingPointInfo*/ 1 && t_value !== (t_value = getStationFromId(/*pathPoint*/ ctx[5]) + "")) set_data_dev(t, t_value);
+    			if (dirty & /*meetingPointInfo*/ 1 && t1_value !== (t1_value = /*meetingPointInfo*/ ctx[0].end + "")) set_data_dev(t1, t1_value);
+    			if (dirty & /*meetingPointInfo*/ 1 && t3_value !== (t3_value = /*meetingPointInfo*/ ctx[0].average + "")) set_data_dev(t3, t3_value);
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(h3);
+    			if (detaching) detach_dev(t0);
+    			if (detaching) detach_dev(t1);
+    			if (detaching) detach_dev(t2);
+    			if (detaching) detach_dev(t3);
     		}
     	};
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_each_block.name,
-    		type: "each",
-    		source: "(20:8) {#each meetingPointInfo.path as pathPoint}",
+    		id: create_else_block.name,
+    		type: "else",
+    		source: "(22:8) {:else}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (20:8) {#if meetingPointInfo.end === undefined}
+    function create_if_block_1(ctx) {
+    	let h2;
+
+    	const block = {
+    		c: function create() {
+    			h2 = element("h2");
+    			h2.textContent = "No path found :(";
+    			add_location(h2, file$1, 20, 12, 500);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, h2, anchor);
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(h2);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_1.name,
+    		type: "if",
+    		source: "(20:8) {#if meetingPointInfo.end === undefined}",
     		ctx
     	});
 
