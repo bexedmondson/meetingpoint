@@ -8,10 +8,13 @@
 
 <main>
 <body>
-	<h1 class="title">Meeting Point</h1>
-	<h2 class="description">Add you and your friends' starting points and a list of potential meetup locations, and hit the Find button to see the best point to meet.</h2>
+    <div class="header"><a href="https://bexedmondson.com">Back</a></div>
 
-	<div class="grid">
+    <div class="grid">
+
+        <h1 class="title">Meeting Point</h1>
+        <h2 class="description">Add you and your friends' starting points and a list of potential meetup locations, and hit the Find button to see the best point to meet.</h2>
+
 		<div class="container">
 			<h2>Start stations:</h2>
 
@@ -39,8 +42,6 @@
 	}
 
 	body {
-		padding: 30px;
-		margin: 0;
 	}
 
 	a {
@@ -59,7 +60,7 @@
 
 	h1,
 	h2 {
-		margin: 0;
+		margin: 1em;
 	}
 
 	button {
@@ -98,6 +99,9 @@
 	}
 
 	.grid {
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
 		justify-self: center;
 		align-items: center;
 		justify-content: center;

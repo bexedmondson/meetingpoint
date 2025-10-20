@@ -20,7 +20,7 @@
         {#if meetingPointInfo.end === undefined}
             <h2>No path found :(</h2>
         {:else}
-            Best option: {meetingPointInfo.end}, average time: {meetingPointInfo.average}
+            <h3>Best option: {meetingPointInfo.end}, average time: {meetingPointInfo.average}</h3>
         {/if}
     {/if}
 {/await}
