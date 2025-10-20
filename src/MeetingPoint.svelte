@@ -15,11 +15,13 @@
     <p>Loading...</p>
 {:then map}
     <button on:click={onclick}><h3>  Find  </h3></button>
+
     {#if meetingPointInfo !== null}
-        <h2>{meetingPointInfo.end}</h2>
-        {#each meetingPointInfo.path as pathPoint}
-            <h3>{getStationFromId(pathPoint)}</h3>
-        {/each}
+        {#if meetingPointInfo.end === undefined}
+            <h2>No path found :(</h2>
+        {:else}
+            Best option: {meetingPointInfo.end}, average time: {meetingPointInfo.average}
+        {/if}
     {/if}
 {/await}
 
