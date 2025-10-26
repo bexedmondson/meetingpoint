@@ -6,43 +6,48 @@
 	let ends=[]
 </script>
 
-<main>
-<body>
-    <div class="header"><a href="https://bexedmondson.com">Back</a></div>
+<div class="sidebar">
+    <div class="bar">
+        <div class="circle">
+            <div class="cutout" />
+        </div>
+    </div>
+</div>
 
-    <div class="grid">
+<div class="grid">
+    <div class="header"><a href="https://bexedmondson.com">&lt; Back</a></div>
 
-        <h1 class="title">Meeting Point</h1>
-        <h2 class="description">Add you and your friends' starting points and a list of potential meetup locations, and hit the Find button to see the best point to meet.</h2>
+    <h1 class="title">Meeting Point</h1>
+    <h2 class="description">Add you and your friends' starting points and a list of potential meetup locations, and hit the Find button to see the best point to meet.</h2>
 
-		<div class="container">
-			<h2>Start stations:</h2>
+    <div class="container">
+        <h2>Start stations:</h2>
 
-			<MultiSelect bind:selected={starts}></MultiSelect>
-		</div>
-		<div class="container">
-			<h2>End stations:</h2>
+        <MultiSelect bind:selected={starts}></MultiSelect>
+    </div>
+    <div class="container">
+        <h2>End stations:</h2>
 
-			<MultiSelect bind:selected={ends}></MultiSelect>
-		</div>
+        <MultiSelect bind:selected={ends}></MultiSelect>
+    </div>
 
-		<div class="container">
-			<MeetingPoint starts={starts} ends={ends}></MeetingPoint>
-		</div>
-	</div>
-</body>
-</main>
+    <div class="container">
+        <MeetingPoint starts={starts} ends={ends}></MeetingPoint>
+    </div>
+</div>
 
 <style>
-	:global(body) {
-		font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-			Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-		background: #222;
-		color: #eee;
-	}
+    :global(html, body) {
+        min-height: 100vh;
+    }
 
-	body {
-	}
+	:global(body) {
+        overflow: auto;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+        Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+        background: #222;
+        color: #eee;
+    }
 
 	a {
 		color: inherit;
@@ -68,6 +73,11 @@
 		font-weight: bold;
 	}
 
+    .header {
+        width: 100%;
+        float: left;
+    }
+
 	.container {
 		min-height: 15vh;
 		min-width: 100vh;
@@ -79,7 +89,7 @@
 	}
 
 	.title {
-		margin: 0 0 1rem;
+		margin: 3rem 0 1rem;
 		line-height: 1.15;
 		font-size: 3.6rem;
 	}
@@ -99,13 +109,59 @@
 	}
 
 	.grid {
+        width: min(95%, calc(100% - 75px));
+        float: right;
         padding: 30px;
         display: flex;
         flex-direction: column;
 		justify-self: center;
 		align-items: center;
 		justify-content: center;
-		margin-top: 3rem;
 	}
-  
+
+    .sidebar {
+        position: fixed;
+        height: 100vh;
+        width: 100px;
+        display: grid;
+        align-items: center;
+    }
+
+    .bar {
+        position: relative;
+        display: grid;
+        background-color: #eee;
+        margin: 0 auto 0 auto;
+        height: 100%;
+        width: 15px;
+        justify-content: center;
+    }
+
+    .circle .cutout {
+        position: relative;
+    }
+
+    .circle {
+        justify-self: center;
+        align-items: center;
+        background-color: #eee;
+        margin-top: 80px;
+        height: 50px;
+        width: 50px;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 50%;
+    }
+
+    .cutout {
+        background-color: #222;
+        height: 25px;
+        width: 25px;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
 </style>
