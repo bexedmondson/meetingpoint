@@ -12,7 +12,7 @@ function PathInfo(average, end, paths) {
 
 function getStationId(station) {
     return london.stations.find((s) => {
-        return s.name == station;
+        return s.name === station;
     }).id;
 }
 
