@@ -2,7 +2,7 @@
     import MultiSelect from 'svelte-multiselect'
     import london from '../tubemaps/datasets/london.json'
 
-    const stations = london.stations.map(a => a.name)
+    const stations = london.stations.map(a => a.name).sort()
 
     export let selected = []
 </script>
