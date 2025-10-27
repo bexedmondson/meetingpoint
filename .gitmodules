@@ -1,3 +1,6 @@
 [submodule "src/dijkstrajs-2"]
 	path = src/dijkstrajs-2
 	url = https://github.com/bexedmondson/dijkstrajs-2.git
+[submodule "tubemaps"]
+	path = tubemaps
+	url = https://github.com/bexedmondson/tubemaps.git
