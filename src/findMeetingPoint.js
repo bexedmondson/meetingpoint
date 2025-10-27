@@ -30,15 +30,17 @@ async function buildMap() {
         if (c.station1 in map) {
             connections1 = map[c.station1];
         }
-        if (c.station2 in map) {
-            connections2 = map[c.station2];
-        }
 
-        connections1[c.station2] = Number(c.time); 
-        connections2[c.station1] = Number(c.time);
-
+        connections1[c.station2] = Number(c.time);
         map[c.station1] = connections1;
-        map[c.station2] = connections2;
+
+        if (c.one_way === 0) {
+            if (c.station2 in map) {
+                connections2 = map[c.station2];
+            }
+            connections2[c.station1] = Number(c.time);
+            map[c.station2] = connections2;
+        }
     });
 
     return map;
