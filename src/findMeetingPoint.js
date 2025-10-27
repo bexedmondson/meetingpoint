@@ -25,7 +25,6 @@ function getStationFromId(id) {
 async function buildMap() {
     london.connections.forEach((c) => {
         let connections1 = {};
-        let connections2 = {};
 
         if (c.source in map) {
             connections1 = map[c.source];
@@ -34,7 +33,8 @@ async function buildMap() {
         connections1[c.target] = Number(c.time);
         map[c.source] = connections1;
 
-        if (c.one_way === 0) {
+        if (c.one_way === "0") {
+            let connections2 = {};
             if (c.target in map) {
                 connections2 = map[c.target];
             }
@@ -42,6 +42,8 @@ async function buildMap() {
             map[c.target] = connections2;
         }
     });
+
+    console.log(map)
 
     return map;
 }
