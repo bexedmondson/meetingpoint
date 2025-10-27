@@ -1,4 +1,4 @@
-import { find_path } from './dijkstrajs-2/dijkstra.js';
+import { find_path, single_source_shortest_paths } from './dijkstrajs-2/dijkstra.js';
 import london from '../tubemaps/datasets/london.json';
 
 var map = [];
@@ -43,33 +43,28 @@ async function buildMap() {
         }
     });
 
-    console.log(map)
-
     return map;
 }
 
-function findAveragePathLength(starts, end) {
+function findAveragePathLength(startGraphs, end) {
     var totalPath = 0;
 
     var endPathInfo = new PathInfo();
     endPathInfo.end = end;
 
-    console.log("hello")
-
     endPathInfo.paths = [];
 
-    starts.forEach(start => {
-        let startId = getStationId(start);
+    startGraphs.forEach(start => {
         let endId = getStationId(end);
 
-        let thisPath = find_path(map, startId, endId);
+        let thisPath = find_path(map, start.startId, endId, start.startGraph);
 
         endPathInfo.paths.push(thisPath);
 
         totalPath += thisPath.cost;
     });
 
-    endPathInfo.average = totalPath / starts.length;
+    endPathInfo.average = totalPath / startGraphs.length;
     
     return endPathInfo;
 }
@@ -77,8 +72,19 @@ function findAveragePathLength(starts, end) {
 function findMeetingPoint(starts, ends) {
     var minPathInfo = {average: -1};
 
+    var startGraphs = []
+
+    starts.forEach(start => {
+        let startId = getStationId(start);
+        startGraphs.push({
+            start: start,
+            startId: startId,
+            startGraph: single_source_shortest_paths(map, startId)
+        });
+    })
+
     ends.forEach(end => {
-        let endPathInfo = findAveragePathLength(starts, end);
+        let endPathInfo = findAveragePathLength(startGraphs, end);
         if (minPathInfo.average === -1 || minPathInfo.average > endPathInfo.average)
         {
             minPathInfo = endPathInfo;
