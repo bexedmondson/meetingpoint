@@ -4,10 +4,10 @@ import london from '../tubemaps/datasets/london.json';
 var map = [];
 
 
-function PathInfo(average, end, path) {
+function PathInfo(average, end, paths) {
     this.average = average;
     this.end = end;
-    this.path = path;
+    this.paths = paths;
 }
 
 function getStationId(station) {
@@ -56,18 +56,20 @@ function findAveragePathLength(starts, end) {
 
     console.log("hello")
 
+    endPathInfo.paths = [];
+
     starts.forEach(start => {
         let startId = getStationId(start);
         let endId = getStationId(end);
 
         let thisPath = find_path(map, startId, endId);
 
+        endPathInfo.paths.push(thisPath);
+
         totalPath += thisPath.cost;
     });
 
-    let average = totalPath / starts.length;
-
-    endPathInfo.average = average;
+    endPathInfo.average = totalPath / starts.length;
     
     return endPathInfo;
 }
