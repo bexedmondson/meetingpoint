@@ -1,5 +1,5 @@
 import { find_path } from './dijkstrajs-2/dijkstra.js';
-import london from '../data/london.json';
+import london from '../tubemaps/datasets/london.json';
 
 var map = [];
 
@@ -27,19 +27,19 @@ async function buildMap() {
         let connections1 = {};
         let connections2 = {};
 
-        if (c.station1 in map) {
-            connections1 = map[c.station1];
+        if (c.source in map) {
+            connections1 = map[c.source];
         }
 
-        connections1[c.station2] = Number(c.time);
-        map[c.station1] = connections1;
+        connections1[c.target] = Number(c.time);
+        map[c.source] = connections1;
 
         if (c.one_way === 0) {
-            if (c.station2 in map) {
-                connections2 = map[c.station2];
+            if (c.target in map) {
+                connections2 = map[c.target];
             }
-            connections2[c.station1] = Number(c.time);
-            map[c.station2] = connections2;
+            connections2[c.source] = Number(c.time);
+            map[c.target] = connections2;
         }
     });
 

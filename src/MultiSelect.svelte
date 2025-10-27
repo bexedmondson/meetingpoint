@@ -1,6 +1,6 @@
 <script>
     import MultiSelect from 'svelte-multiselect'
-    import london from '../data/london.json'
+    import london from '../tubemaps/datasets/london.json'
 
     const stations = london.stations.map(a => a.name)
 
