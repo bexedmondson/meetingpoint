@@ -1,5 +1,5 @@
 <script>
-    import { buildMap, findMeetingPoint, getStationFromId } from './findMeetingPoint.js'
+    import { buildMap, findMeetingPoint } from './findMeetingPoint.js'
     import MeetingPath from "./MeetingPath.svelte";
 
     var meetingPointInfo = null
