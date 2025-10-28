@@ -1,13 +1,14 @@
 import { find_path, single_source_shortest_paths } from './dijkstrajs-2/dijkstra.js';
 import london from '../tubemaps/datasets/london.json';
 
-var map = [];
+let map = [];
 
 
 function PathInfo(average, end, paths) {
     this.average = average;
     this.end = end;
     this.paths = paths;
+    this.isValid = true;
 }
 
 function getStationId(station) {
@@ -47,22 +48,35 @@ async function buildMap() {
 }
 
 function findAveragePathLength(startGraphs, end) {
-    var totalPath = 0;
+    let totalPath = 0;
 
-    var endPathInfo = new PathInfo();
+    let endPathInfo = new PathInfo();
     endPathInfo.end = end;
 
     endPathInfo.paths = [];
 
-    startGraphs.forEach(start => {
+    let canFindRouteFromAll = true;
+
+    startGraphs.every(start => {
         let endId = getStationId(end);
 
         let thisPath = find_path(map, start.startId, endId, start.startGraph);
 
         endPathInfo.paths.push(thisPath);
 
+        if (thisPath.cost === undefined) {
+            canFindRouteFromAll = false;
+            return false;
+        }
+
         totalPath += thisPath.cost;
+        return true;
     });
+
+    if (!canFindRouteFromAll)
+    {
+        endPathInfo.isValid = false;
+    }
 
     endPathInfo.average = totalPath / startGraphs.length;
     
@@ -70,9 +84,9 @@ function findAveragePathLength(startGraphs, end) {
 }
 
 function findMeetingPoint(starts, ends) {
-    var minPathInfo = {average: -1};
+    let minPathInfo = {average: -1};
 
-    var startGraphs = []
+    let startGraphs = []
 
     starts.forEach(start => {
         let startId = getStationId(start);
@@ -85,6 +99,10 @@ function findMeetingPoint(starts, ends) {
 
     ends.forEach(end => {
         let endPathInfo = findAveragePathLength(startGraphs, end);
+
+        if (!endPathInfo.isValid)
+            return;
+
         if (minPathInfo.average === -1 || minPathInfo.average > endPathInfo.average)
         {
             minPathInfo = endPathInfo;

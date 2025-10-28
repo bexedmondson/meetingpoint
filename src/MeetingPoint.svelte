@@ -17,7 +17,7 @@
     <button on:click={onclick}><h3>  Find  </h3></button>
 
     {#if meetingPointInfo !== null}
-        {#if meetingPointInfo.end === undefined}
+        {#if meetingPointInfo === undefined || meetingPointInfo.end === undefined}
             <h2>No path found :(</h2>
         {:else}
             <h3>Best option: {meetingPointInfo.end}, average time: {meetingPointInfo.average}</h3>
