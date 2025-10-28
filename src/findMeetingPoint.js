@@ -1,18 +1,19 @@
-import { find_path } from './dijkstrajs-2/dijkstra.js';
+import { find_path, single_source_shortest_paths } from './dijkstrajs-2/dijkstra.js';
 import london from '../tubemaps/datasets/london.json';
 
-var map = [];
+let map = [];
 
 
 function PathInfo(average, end, paths) {
     this.average = average;
     this.end = end;
     this.paths = paths;
+    this.isValid = true;
 }
 
 function getStationId(station) {
     return london.stations.find((s) => {
-        return s.name == station;
+        return s.name === station;
     }).id;
 }
 
@@ -43,42 +44,65 @@ async function buildMap() {
         }
     });
 
-    console.log(map)
-
     return map;
 }
 
-function findAveragePathLength(starts, end) {
-    var totalPath = 0;
+function findAveragePathLength(startGraphs, end) {
+    let totalPath = 0;
 
-    var endPathInfo = new PathInfo();
+    let endPathInfo = new PathInfo();
     endPathInfo.end = end;
-
-    console.log("hello")
 
     endPathInfo.paths = [];
 
-    starts.forEach(start => {
-        let startId = getStationId(start);
+    let canFindRouteFromAll = true;
+
+    startGraphs.every(start => {
         let endId = getStationId(end);
 
-        let thisPath = find_path(map, startId, endId);
+        let thisPath = find_path(map, start.startId, endId, start.startGraph);
 
         endPathInfo.paths.push(thisPath);
 
+        if (thisPath.cost === undefined) {
+            canFindRouteFromAll = false;
+            return false;
+        }
+
         totalPath += thisPath.cost;
+        return true;
     });
 
-    endPathInfo.average = totalPath / starts.length;
+    if (!canFindRouteFromAll)
+    {
+        endPathInfo.isValid = false;
+    }
+
+    endPathInfo.average = totalPath / startGraphs.length;
     
     return endPathInfo;
 }
 
 function findMeetingPoint(starts, ends) {
-    var minPathInfo = {average: -1};
+    let minPathInfo = {average: -1};
+
+    let startGraphs = []
+
+    starts.forEach(start => {
+        let startId = getStationId(start);
+        startGraphs.push({
+            start: start,
+            startId: startId,
+            startGraph: single_source_shortest_paths(map, startId)
+        });
+    })
 
     ends.forEach(end => {
-        let endPathInfo = findAveragePathLength(starts, end);
+        let endPathInfo = findAveragePathLength(startGraphs, end);
+
+        if (!endPathInfo.isValid)
+            return;
+
         if (minPathInfo.average === -1 || minPathInfo.average > endPathInfo.average)
         {
             minPathInfo = endPathInfo;
