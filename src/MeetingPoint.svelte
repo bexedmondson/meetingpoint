@@ -5,7 +5,7 @@
 
     function onclick() {
         meetingPointInfo = findMeetingPoint(starts, ends)
-    };
+    }
     
     export let starts = []
     export let ends = []
