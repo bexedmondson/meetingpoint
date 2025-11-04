@@ -2,14 +2,13 @@
     import { buildMap, findMeetingPoint } from './findMeetingPoint.js'
     import MeetingPath from "./MeetingPath.svelte";
 
-    var meetingPointInfo = null
+    let meetingPointInfo = $state({paths: null})
 
     function onclick() {
         meetingPointInfo = findMeetingPoint(starts, ends)
     }
     
-    export let starts = []
-    export let ends = []
+    let { starts, ends } = $props();
 </script>
 
 {#await buildMap()}
