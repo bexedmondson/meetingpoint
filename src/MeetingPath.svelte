@@ -51,6 +51,7 @@
 
 </script>
 
+<div class="singlePath">
 {#if meetingPathInfo === undefined || meetingPathInfo.finalPath === undefined}
     <p>No path found <PathFromTo path={meetingPathInfo.finalPath} /> :(</p>
 {:else}
@@ -67,6 +68,12 @@
         {/if}
     {/each}
 {/if}
+</div>
 
 <style>
+    .singlePath {
+        flex-basis: 0;
+        flex-grow: 1;
+        align-items: center;
+    }
 </style>
