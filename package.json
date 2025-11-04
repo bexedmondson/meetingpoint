@@ -9,19 +9,19 @@
     "start": "sirv public --no-clear"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^24.0.0",
-    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^0.4.0",
-    "gh-pages": "^5.0.0",
-    "rollup": "^3.15.0",
+    "gh-pages": "^6.3.0",
+    "rollup": "^4.52.5",
     "rollup-plugin-css-only": "^4.3.0",
     "rollup-plugin-livereload": "^2.0.0",
     "rollup-plugin-svelte": "^7.1.2",
-    "svelte": "^3.55.0"
+    "svelte": "^5.43.3"
   },
   "dependencies": {
     "@rollup/plugin-json": "^6.0.0",
-    "sirv-cli": "^2.0.0",
-    "svelte-multiselect": "^10.1.0"
+    "sirv-cli": "^3.0.1",
+    "svelte-multiselect": "^11.2.4"
   }
 }
