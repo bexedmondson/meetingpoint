@@ -60,17 +60,21 @@
     <p>Path <PathFromTo path={meetingPathInfo.finalPath} />, duration {meetingPathInfo.cost}</p>
 
     {#each pathStructure as pathSegment, i}
-        <div class="segment">
-        {#if pathSegment.type === "station" && i === 0}
-            {getStationFromId(pathSegment.station)}
+        {#if pathSegment.type === "station" && (i === 0 || i === pathStructure.length - 1)}
+            <div class="pathStep stationOnly">
+                {getStationFromId(pathSegment.station)}
+            </div>
         {:else if pathSegment.isFirstTravel}
-            <LineIndicator line={pathSegment.line} />
+            <div class="pathStep">
+                <LineIndicator line={pathSegment.line} />
+            </div>
         {:else if pathSegment.isLineChanging}
-            {getStationFromId(pathSegment.station)}
-            <!--LineIndicator line={pathSegment.prevLine} /-->
-            <LineIndicator line={pathSegment.line} />
+            <div class="pathStep">
+                {getStationFromId(pathSegment.station)}
+                <!--LineIndicator line={pathSegment.prevLine} /-->
+                <LineIndicator line={pathSegment.line} />
+            </div>
         {/if}
-        </div>
     {/each}
 {/if}
 </div>
@@ -82,9 +86,17 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        text-align: center;
     }
 
-    .segment {
+    .pathStep {
+        width: 100%;
         text-align: center;
+        border-style: solid;
+        border-color: #eeeeee;
+        border-width: 4px;
+        border-radius: 0.5em;
+        margin: 1em;
+        padding: 1em;
     }
 </style>

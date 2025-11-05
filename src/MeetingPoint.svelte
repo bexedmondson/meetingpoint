@@ -38,8 +38,8 @@
     .paths {
         width: 100%;
         display: grid;
-        gap: 1em;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2em;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 0.8fr));
     }
 
     button {
