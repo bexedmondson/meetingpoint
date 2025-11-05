@@ -2,7 +2,7 @@
     import { buildMap, findMeetingPoint } from './findMeetingPoint.js'
     import MeetingPath from "./MeetingPath.svelte";
 
-    let meetingPointInfo = $state({paths: null})
+    let meetingPointInfo = $state(null)
 
     function onclick() {
         meetingPointInfo = findMeetingPoint(starts, ends)
@@ -14,7 +14,7 @@
 {#await buildMap()}
     <p>Loading...</p>
 {:then map}
-    <button on:click={onclick}><b>  Find  </b></button>
+    <button onclick={onclick}><b>  Find  </b></button>
 
     <div class="">
     {#if meetingPointInfo !== null}
