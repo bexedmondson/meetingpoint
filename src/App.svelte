@@ -80,7 +80,6 @@
 
 	.container {
 		min-height: 15vh;
-		min-width: 100vh;
 		padding: 0.5rem;
 		display: flex;
 		flex-direction: column;
