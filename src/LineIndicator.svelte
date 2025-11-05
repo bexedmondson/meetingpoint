@@ -11,7 +11,7 @@
 <div class="lineContainer">
     <span class="lineName">{lineInfo.name}</span>
 
-    <div class="lineIcon">{@html svg}</div>
+    <!--div class="lineIcon">{@html svg}</div-->
 </div>
 
 <style>
