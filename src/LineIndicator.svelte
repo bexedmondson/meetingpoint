@@ -24,10 +24,6 @@
         gap: 1em;
     }
 
-    .lineName {
-        text-align: center;
-    }
-
     .lineIcon {
         width: 150px;
     }

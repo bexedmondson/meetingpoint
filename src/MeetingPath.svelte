@@ -4,7 +4,6 @@
     import { getStationFromId } from './findMeetingPoint.js';
     import london from '../tubemaps/datasets/london.json';
     import LineIndicator from "./LineIndicator.svelte";
-    import { ChevronsDown } from "@lucide/svelte";
 
     let { meetingPathInfo } = $props();
 
@@ -69,7 +68,7 @@
                     <LineIndicator line={pathSegment.line} />
                 </div>
             {:else if pathSegment.isLineChanging}
-                <div class="pathStep">
+                <div class="pathStep pathStation">
                     {getStationFromId(pathSegment.station)}
                 </div>
                 <PathSeparator />
@@ -78,7 +77,7 @@
                     <LineIndicator line={pathSegment.line} />
                 </div>
             {:else}
-                <div class="pathStep stationOnly">
+                <div class="pathStep pathStation">
                     {getStationFromId(pathSegment.station)}
                 </div>
             {/if}
@@ -93,23 +92,35 @@
 
 <style>
     .singlePath {
-        flex-basis: 0;
-        flex-grow: 1;
+        flex-basis: 20%;
+        flex-grow: 0;
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
+        border-style: solid;
+        border-color: #eee;
+        border-width: 4px;
+        border-radius: 0.5em;
+        background-color: #333;
+        padding-top: 1em;
+        padding-left: 1em;
+        padding-right: 1em;
     }
 
     .pathStep {
-        width: 100%;
+        align-self: stretch;
         text-align: center;
+        padding: 1em;
+        margin-bottom: 1em;
+    }
+
+    .pathStation {
+        margin-top: 1em;
         border-style: solid;
         border-color: #eeeeee;
         border-width: 4px;
         border-radius: 0.5em;
-        margin: 1em;
-        padding: 1em;
     }
 
 </style>

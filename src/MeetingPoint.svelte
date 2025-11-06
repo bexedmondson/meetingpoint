@@ -37,9 +37,10 @@
 <style>
     .paths {
         width: 100%;
-        display: grid;
+        display: flex;
+        flex-wrap: wrap;
         gap: 2em;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 0.8fr));
+
     }
 
     button {
