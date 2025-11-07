@@ -423,48 +423,77 @@
     .lineContainer.svelte-spmjpi {
         width: auto;
         padding: 1em;
+        margin-bottom: 0.5em;
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 1em;
+        background-color: #fff;
+        border-radius: 0.5em;
     }
 
     .lineName.svelte-spmjpi {
-        text-align: center;
+        color: #000;
     }
 
     /* (unused) .lineIcon {
-        width: 150px;
+        width: 100%;
     }*/
+
+    .line.svelte-spmjpi {
+        width: 100%;
+        height: 0.5em;
+    }
 
 
     .singlePath.svelte-poqpph {
-        flex-basis: 0;
-        flex-grow: 1;
+        flex-basis: 20%;
+        flex-grow: 0;
+        flex-shrink: 0;
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
+        border-style: solid;
+        border-color: #eee;
+        border-width: 4px;
+        border-radius: 0.5em;
+        background-color: #333;
+        padding-top: 1em;
+        padding-left: 1em;
+        padding-right: 1em;
     }
 
     .pathStep.svelte-poqpph {
-        width: 100%;
+        align-self: stretch;
         text-align: center;
+        padding: 1em;
+    }
+
+    .pathStation.svelte-poqpph {
+        margin-bottom: 1em;
         border-style: solid;
         border-color: #eeeeee;
         border-width: 4px;
         border-radius: 0.5em;
-        margin: 1em;
-        padding: 1em;
     }
 
 
 
+    .results.svelte-3cltwi {
+        align-items: center;
+    }
+
+    .summary.svelte-3cltwi {
+        text-align: center;
+    }
+
     .paths.svelte-3cltwi {
         width: 100%;
-        display: grid;
+        display: flex;
+        flex-wrap: wrap;
         gap: 2em;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 0.8fr));
+
     }
 
     button.svelte-3cltwi {
