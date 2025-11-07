@@ -4,9 +4,20 @@
     import { getStationFromId } from './findMeetingPoint.js';
     import london from '../tubemaps/datasets/london.json';
     import LineIndicator from "./LineIndicator.svelte";
-    import { ChevronsDown } from "@lucide/svelte";
 
     let { meetingPathInfo } = $props();
+
+    const duration = $derived.by(() => {
+        let text = meetingPathInfo.cost.toString();
+        let pointIndex = text.indexOf(".")
+        if (pointIndex > 0) {
+            console.log(meetingPathInfo.cost);
+            text = text.substring(0, pointIndex + 2);
+            console.log(text);
+        }
+
+        return text;
+    });
 
     const pathStructure = $derived.by(() => {
         let pathStructure = [];
@@ -59,7 +70,7 @@
 {#if meetingPathInfo === undefined || meetingPathInfo.finalPath === undefined}
     <p>No path found <PathFromTo path={meetingPathInfo.finalPath} /> :(</p>
 {:else}
-    <p>Path <PathFromTo path={meetingPathInfo.finalPath} />, duration {meetingPathInfo.cost}</p>
+    <p><b>Route <PathFromTo path={meetingPathInfo.finalPath} /></b><br>{duration} minutes</p>
 
     {#each pathStructure as pathSegment, i}
         {#if !pathSegment.isFirstTravel && !pathSegment.isLineChanging && !(pathSegment.type === "station" && (i === 0 || i === pathStructure.length - 1)) }
@@ -69,22 +80,21 @@
                     <LineIndicator line={pathSegment.line} />
                 </div>
             {:else if pathSegment.isLineChanging}
-                <div class="pathStep">
+                <div class="pathStep pathStation">
                     {getStationFromId(pathSegment.station)}
                 </div>
                 <PathSeparator />
                 <div class="pathStep">
-                    <!--LineIndicator line={pathSegment.prevLine} /-->
                     <LineIndicator line={pathSegment.line} />
                 </div>
             {:else}
-                <div class="pathStep stationOnly">
+                <div class="pathStep pathStation">
                     {getStationFromId(pathSegment.station)}
                 </div>
-            {/if}
 
-            {#if i !== pathStructure.length - 1}
-                <PathSeparator />
+                {#if i !== pathStructure.length - 1}
+                    <PathSeparator />
+                {/if}
             {/if}
         {/if}
     {/each}
@@ -93,23 +103,35 @@
 
 <style>
     .singlePath {
-        flex-basis: 0;
-        flex-grow: 1;
+        flex-basis: 20%;
+        flex-grow: 0;
+        flex-shrink: 0;
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
+        border-style: solid;
+        border-color: #eee;
+        border-width: 4px;
+        border-radius: 0.5em;
+        background-color: #333;
+        padding-top: 1em;
+        padding-left: 1em;
+        padding-right: 1em;
     }
 
     .pathStep {
-        width: 100%;
+        align-self: stretch;
         text-align: center;
+        padding: 1em;
+    }
+
+    .pathStation {
+        margin-bottom: 1em;
         border-style: solid;
         border-color: #eeeeee;
         border-width: 4px;
         border-radius: 0.5em;
-        margin: 1em;
-        padding: 1em;
     }
 
 </style>

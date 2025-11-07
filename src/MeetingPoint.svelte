@@ -7,6 +7,18 @@
     function onclick() {
         meetingPointInfo = findMeetingPoint(starts, ends)
     }
+
+    const averageDuration = $derived.by(() => {
+        let text = meetingPointInfo.average.toString();
+        let pointIndex = text.indexOf(".")
+        if (pointIndex > 0) {
+            console.log(meetingPointInfo.average);
+            text = text.substring(0, pointIndex + 2);
+            console.log(text);
+        }
+
+        return text;
+    });
     
     let { starts, ends } = $props();
 </script>
@@ -16,12 +28,13 @@
 {:then map}
     <button onclick={onclick}><b>  Find  </b></button>
 
-    <div class="">
+    <div class="results">
     {#if meetingPointInfo !== null}
         {#if meetingPointInfo === undefined || meetingPointInfo.end === undefined}
-            <h2>No path found :(</h2>
+            <h2 class="summary">No path found :(</h2>
         {:else}
-            <h3>Best option: {meetingPointInfo.end}, average time: {meetingPointInfo.average}</h3>
+            <h3 class="summary">Best option: {meetingPointInfo.end}</h3>
+            <h3 class="summary">Average time: {averageDuration} minutes</h3>
 
             <div class="paths">
             {#each meetingPointInfo.paths as path}
@@ -35,11 +48,20 @@
 {/await}
 
 <style>
+    .results {
+        align-items: center;
+    }
+
+    .summary {
+        text-align: center;
+    }
+
     .paths {
         width: 100%;
-        display: grid;
+        display: flex;
+        flex-wrap: wrap;
         gap: 2em;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 0.8fr));
+
     }
 
     button {
