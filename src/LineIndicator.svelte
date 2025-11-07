@@ -1,5 +1,6 @@
 <script>
     import london from '../tubemaps/datasets/london.json';
+    import { GitCompare, Footprints } from "@lucide/svelte";
 
     let { line } = $props();
 
@@ -14,7 +15,13 @@
 <div class="lineContainer">
     <span class="lineName">{lineInfo.name}</span>
 
-    <div class="line" style="background-image: linear-gradient(0deg, {lineInfo.colour} 33.3%, {lineInfo.stripe} 33.3%, {lineInfo.stripe} 66.7%, {lineInfo.colour} 66.7%, {lineInfo.colour} 100%)"></div>
+    {#if lineInfo.icon === ""}
+        <div class="line" style="background-image: linear-gradient(0deg, {lineInfo.colour} 33.3%, {lineInfo.stripe} 33.3%, {lineInfo.stripe} 66.7%, {lineInfo.colour} 66.7%, {lineInfo.colour} 100%)"></div>
+    {:else if lineInfo.icon === "walk"}
+        <Footprints class="lineIcon" color="#000" />
+    {:else}
+        <GitCompare class="lineIcon" color="#000" />
+    {/if}
 </div>
 
 <style>

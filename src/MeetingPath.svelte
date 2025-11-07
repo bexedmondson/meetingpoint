@@ -7,6 +7,18 @@
 
     let { meetingPathInfo } = $props();
 
+    const duration = $derived.by(() => {
+        let text = meetingPathInfo.cost.toString();
+        let pointIndex = text.indexOf(".")
+        if (pointIndex > 0) {
+            console.log(meetingPathInfo.cost);
+            text = text.substring(0, pointIndex + 2);
+            console.log(text);
+        }
+
+        return text;
+    });
+
     const pathStructure = $derived.by(() => {
         let pathStructure = [];
         for (let i = 0; i < meetingPathInfo.finalPath.length; i++) {
@@ -58,7 +70,7 @@
 {#if meetingPathInfo === undefined || meetingPathInfo.finalPath === undefined}
     <p>No path found <PathFromTo path={meetingPathInfo.finalPath} /> :(</p>
 {:else}
-    <p>Path <PathFromTo path={meetingPathInfo.finalPath} />, duration {meetingPathInfo.cost}</p>
+    <p><b>Route <PathFromTo path={meetingPathInfo.finalPath} /></b><br>{duration} minutes</p>
 
     {#each pathStructure as pathSegment, i}
         {#if !pathSegment.isFirstTravel && !pathSegment.isLineChanging && !(pathSegment.type === "station" && (i === 0 || i === pathStructure.length - 1)) }
@@ -73,7 +85,6 @@
                 </div>
                 <PathSeparator />
                 <div class="pathStep">
-                    <!--LineIndicator line={pathSegment.prevLine} /-->
                     <LineIndicator line={pathSegment.line} />
                 </div>
             {:else}
