@@ -80,10 +80,10 @@
                 <div class="pathStep pathStation">
                     {getStationFromId(pathSegment.station)}
                 </div>
-            {/if}
 
-            {#if i !== pathStructure.length - 1}
-                <PathSeparator />
+                {#if i !== pathStructure.length - 1}
+                    <PathSeparator />
+                {/if}
             {/if}
         {/if}
     {/each}
@@ -94,6 +94,7 @@
     .singlePath {
         flex-basis: 20%;
         flex-grow: 0;
+        flex-shrink: 0;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -112,11 +113,10 @@
         align-self: stretch;
         text-align: center;
         padding: 1em;
-        margin-bottom: 1em;
     }
 
     .pathStation {
-        margin-top: 1em;
+        margin-bottom: 1em;
         border-style: solid;
         border-color: #eeeeee;
         border-width: 4px;
