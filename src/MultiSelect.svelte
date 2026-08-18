@@ -1,13 +1,13 @@
 <script>
     import MultiSelect from 'svelte-multiselect'
-    import london from '../tubemaps/datasets/london.json'
+	import stations from '../tubemaps/datasets/stations.json'
 
-    const stations = london.stations.map(a => a.name).sort()
+    const stationsSorted = Object.values(stations).map(a => a.name).sort()
 
     export let selected = []
 </script>
 
-<MultiSelect bind:selected options={stations} />
+<MultiSelect bind:selected options={stationsSorted} />
 
 <style>
     ul {

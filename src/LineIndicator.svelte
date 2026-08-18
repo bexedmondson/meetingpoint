@@ -1,10 +1,10 @@
 <script>
-    import london from '../tubemaps/datasets/london.json';
-    import { GitCompare, Footprints } from "@lucide/svelte";
+    import lines from '../tubemaps/datasets/lines.json';
+    import { GitCompare, Footprints, TrainFrontTunnel } from "@lucide/svelte";
 
     let { line } = $props();
 
-    let lineInfo = london.lines.find(element => element.line === line);
+    let lineInfo = lines.find(element => element.line === line);
 
     if (lineInfo.stripe === "") {
         console.log(lineInfo.stripe)
@@ -19,6 +19,8 @@
         <div class="line" style="background-image: linear-gradient(0deg, {lineInfo.colour} 33.3%, {lineInfo.stripe} 33.3%, {lineInfo.stripe} 66.7%, {lineInfo.colour} 66.7%, {lineInfo.colour} 100%)"></div>
     {:else if lineInfo.icon === "walk"}
         <Footprints class="lineIcon" color="#000" />
+    {:else if lineInfo.icon === "traintunnel"}
+        <TrainFrontTunnel class="lineIcon" color="#000" />
     {:else}
         <GitCompare class="lineIcon" color="#000" />
     {/if}
