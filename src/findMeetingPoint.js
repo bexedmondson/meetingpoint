@@ -70,33 +70,16 @@ function findAveragePathLength(startGraphs, end) {
         console.log(stations[start.startId])
         console.log(stations[endId])
 
-        let startLineIds = stations[start.startId]["lines"]
-        let endLineIds = stations[endId]["lines"]
-        let possiblePaths = []
+        let thisPath = find_path(map, start.startId, endId, start.startGraph);
 
-        startLineIds.every(startLineId => {
-            endLineIds.every(endLineId => {
-                console.log("finding path from " + start.startId + "_" + startLineId + " to " + endId + "_" + endLineId);
-                let thisPath = find_path(map, start.startId + "_" + startLineId, endId + "_" + endLineId, start.startGraph);
-                possiblePaths.push(thisPath);
-            })
-        })
+        endPathInfo.paths.push(thisPath);
 
-        let bestPathForStart = null;
-        possiblePaths.every(possiblePath => {
-            if (bestPathForStart == null || bestPathForStart.cost > possiblePath) {
-                bestPathForStart = possiblePath;
-            }
-        });
-
-        endPathInfo.paths.push(bestPathForStart);
-
-        if (bestPathForStart.cost === undefined) {
+        if (thisPath.cost === undefined) {
             canFindRouteFromAll = false;
             return false;
         }
 
-        totalPath += bestPathForStart.cost;
+        totalPath += thisPath.cost;
 
         return true;
     });
