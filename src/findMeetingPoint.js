@@ -1,7 +1,8 @@
 import { find_path, single_source_shortest_paths } from './dijkstrajs-2/dijkstra.js';
-import london from '../tubemaps/datasets/london.json';
+import connections from '../tubemaps/datasets/connections.json';
+import stations from '../tubemaps/datasets/stations.json' with { type: "json" };
 
-let map = [];
+let map = {};
 
 
 function PathInfo(average, end, paths) {
@@ -12,37 +13,41 @@ function PathInfo(average, end, paths) {
 }
 
 function getStationId(station) {
-    return london.stations.find((s) => {
+    return Object.values(stations).find((s) => {
         return s.name === station;
     }).id;
 }
 
 function getStationFromId(id) {
-    return london.stations.find((s) => {
-        return s.id === id;
-    }).name;
+    let nosuffix = id;
+    if (nosuffix.includes("_")) {
+        nosuffix = nosuffix.substring(0, nosuffix.indexOf("_"));
+    }
+
+    return stations[nosuffix].name;
 }
 
 async function buildMap() {
-    london.connections.forEach((c) => {
+    connections.forEach((c) => {
         let connections1 = {};
 
-        if (c.source in map) {
-            connections1 = map[c.source];
+        if (c.source_suffix in map) {
+            connections1 = map[c.source_suffix];
         }
 
-        connections1[c.target] = Number(c.time);
-        map[c.source] = connections1;
+        connections1[c.target_suffix] = Number(c.time);
+        map[c.source_suffix] = connections1;
 
         if (c.one_way === "0") {
             let connections2 = {};
-            if (c.target in map) {
-                connections2 = map[c.target];
+            if (c.target_suffix in map) {
+                connections2 = map[c.target_suffix];
             }
-            connections2[c.source] = Number(c.time);
-            map[c.target] = connections2;
+            connections2[c.source_suffix] = Number(c.time);
+            map[c.target_suffix] = connections2;
         }
     });
+    console.log(map)
 
     return map;
 }
@@ -58,7 +63,12 @@ function findAveragePathLength(startGraphs, end) {
     let canFindRouteFromAll = true;
 
     startGraphs.every(start => {
+        console.log(start)
+
         let endId = getStationId(end);
+
+        console.log(stations[start.startId])
+        console.log(stations[endId])
 
         let thisPath = find_path(map, start.startId, endId, start.startGraph);
 
@@ -70,6 +80,7 @@ function findAveragePathLength(startGraphs, end) {
         }
 
         totalPath += thisPath.cost;
+
         return true;
     });
 

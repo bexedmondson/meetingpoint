@@ -2,8 +2,8 @@
     import PathFromTo from "./PathFromTo.svelte";
     import PathSeparator from "./PathSeparator.svelte";
     import { getStationFromId } from './findMeetingPoint.js';
-    import london from '../tubemaps/datasets/london.json';
     import LineIndicator from "./LineIndicator.svelte";
+    import connections from '../tubemaps/datasets/connections.json';
 
     let { meetingPathInfo } = $props();
 
@@ -22,6 +22,10 @@
     const pathStructure = $derived.by(() => {
         let pathStructure = [];
         for (let i = 0; i < meetingPathInfo.finalPath.length; i++) {
+
+            //console.log("final path: ")
+            //console.log(finalPath)
+
             let currentStation = meetingPathInfo.finalPath[i];
 
             pathStructure.push({
@@ -42,9 +46,9 @@
 
             //need to put this info in the path rather than calculating it here
             // otherwise we might end up switching between h&c and circle several times for no reason, for example
-            const nextStopChange = london.connections.find(connection =>
-                (connection.source === currentStation && connection.target === nextStop)
-                || (connection.source === nextStop && connection.target === currentStation && connection.one_way === "0")
+            const nextStopChange = connections.find(connection =>
+                (connection.source_suffix === currentStation && connection.target_suffix === nextStop)
+                || (connection.source_suffix === nextStop && connection.target_suffix === currentStation && connection.one_way === "0")
             )
 
             transitionInfo.line = nextStopChange.line;
@@ -61,6 +65,9 @@
 
             pathStructure.push(transitionInfo);
         }
+
+        console.log("path structure")
+        console.log(pathStructure)
         return pathStructure;
     });
 
@@ -77,7 +84,7 @@
         {:else}
             {#if pathSegment.isFirstTravel}
                 <div class="pathStep">
-                    <LineIndicator line={pathSegment.line} />
+                    <LineIndicator line={pathSegment.line} isEnter={true}/>
                 </div>
             {:else if pathSegment.isLineChanging}
                 <div class="pathStep pathStation">
@@ -85,7 +92,7 @@
                 </div>
                 <PathSeparator />
                 <div class="pathStep">
-                    <LineIndicator line={pathSegment.line} />
+                    <LineIndicator line={pathSegment.line} isEnter={false}/>
                 </div>
             {:else}
                 <div class="pathStep pathStation">
