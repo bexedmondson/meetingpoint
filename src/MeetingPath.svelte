@@ -65,6 +65,9 @@
 
             pathStructure.push(transitionInfo);
         }
+
+        console.log("path structure")
+        console.log(pathStructure)
         return pathStructure;
     });
 
@@ -81,7 +84,7 @@
         {:else}
             {#if pathSegment.isFirstTravel}
                 <div class="pathStep">
-                    <LineIndicator line={pathSegment.line} />
+                    <LineIndicator line={pathSegment.line} isEnter={true}/>
                 </div>
             {:else if pathSegment.isLineChanging}
                 <div class="pathStep pathStation">
@@ -89,7 +92,7 @@
                 </div>
                 <PathSeparator />
                 <div class="pathStep">
-                    <LineIndicator line={pathSegment.line} />
+                    <LineIndicator line={pathSegment.line} isEnter={false}/>
                 </div>
             {:else}
                 <div class="pathStep pathStation">
